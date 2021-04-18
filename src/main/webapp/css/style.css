@@ -1,0 +1,88 @@
+@charset "ISO-8859-1";
+
+body{
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	font-family: fantasy;
+	font-size: 16px;
+}
+
+.login-form{
+	display: flex;
+	flex-direction: column;
+}
+
+.login-form input{
+	margin-bottom: 10px;
+}
+
+.header::after{
+	content: "Articles List:";
+	font-size: 32px;
+	color: white;
+}
+
+.header{
+	width: 75%;
+	height: 100px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	border-radius: 10px;
+	margin-bottom: 10px;
+	background-color: #FF2C21;
+}
+
+.header img{
+	position: absolute;
+	right: 20px;
+}
+
+.header p{
+	position: absolute;
+	right: 25px;
+	padding-top: 10px;
+}
+
+.articlesList{
+	width: 85%;
+	list-style-type: none;
+}
+
+.column-description{
+	width: 100%;
+	min-height: 75px;
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
+	border-radius: 10px;
+	margin-bottom: 10px;
+	color: white;
+	background-color: #8B0000;
+}
+
+.article{
+	width: 100%;
+	min-height: 75px;
+	display: flex;
+	align-items: center;
+	border-radius: 15px;
+	margin-bottom: 10px;
+}
+
+.article:nth-child(even){
+	background-color: #FFF724;
+}
+
+.article:nth-child(odd){
+	background-color: #FF6124;
+}
+
+.width-20{
+	width: 20%;
+	display: flex;
+	justify-content: center;
+}
