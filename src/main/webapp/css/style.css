@@ -33,6 +33,7 @@ body{
 	align-items: center;
 	border-radius: 10px;
 	margin-bottom: 10px;
+	margin-top: 10px;
 	background-color: #FF2C21;
 }
 
@@ -85,4 +86,50 @@ body{
 	width: 20%;
 	display: flex;
 	justify-content: center;
+}
+
+.cart-header{
+	display: flex;
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+.back-button{
+	position: absolute;
+	left: 25px;
+}
+
+.dot{
+	width: 20px;
+	height: 20px;
+	border-radius: 50%;
+	margin-right: 5px;
+	border: solid black 1px;
+}
+
+.green{
+	background-color: #31FC33;
+}
+
+.red{
+	background-color: #D42017;
+}
+
+.cart-logout{
+	position: absolute;
+	right: 20px;
+}
+
+.shop-logout{
+	position: absolute;
+	right: 15%;
+}
+
+.space-around{
+	justify-content: space-around;
+}
+
+.total{
+	position: relative;
+	left: 40%;
 }

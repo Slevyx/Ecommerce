@@ -124,4 +124,56 @@ public class CartDaoImpl implements ICartDao{
 		connection.close();
 		return cartArticle;
 	}
+
+	@Override
+	public void buyArticles(String username) throws SQLException {
+		Connection connection = ConnectionFactory.getConnection();
+		//UPDATE
+		String sqlQuery = "";
+		//DELETE
+		sqlQuery = "DELETE FROM carrello_dettaglio cd WHERE cd.id_carrello IN (\r\n"
+				+ "SELECT c.id_carrello\r\n"
+				+ "FROM carrello c\r\n"
+				+ "INNER JOIN utente u\r\n"
+				+ "ON c.id_utente = u.id_utente\r\n"
+				+ "WHERE u.nome_utente = ?)";
+		PreparedStatement statement = connection.prepareStatement(sqlQuery);
+		statement.setString(1, username);
+		statement.executeUpdate();
+	}
+
+	@Override
+	public void addRemoveArticle(String username, int id, int quantity) throws SQLException {
+		Connection connection = ConnectionFactory.getConnection();
+		String sqlQuery = "UPDATE carrello_dettaglio cd\n"
+				+ "INNER JOIN carrello c\n"
+				+ "ON c.id_carrello = cd.id_carrello \n"
+				+ "INNER JOIN utente u\n"
+				+ "ON u.id_utente = c.id_utente \n"
+				+ "INNER JOIN articolo art\n"
+				+ "ON art.id_articolo = cd.id_articolo\n"
+				+ "SET quantita = ?\n"
+				+ "WHERE cd.id_articolo = ? AND u.nome_utente = ?";
+		PreparedStatement statement = connection.prepareStatement(sqlQuery);
+		statement.setInt(1, quantity);
+		statement.setInt(2, id);
+		statement.setString(3, username);
+		statement.executeUpdate();
+	}
+
+	@Override
+	public void removeAllArticles(String username, int id) throws SQLException {
+		Connection connection = ConnectionFactory.getConnection();
+		String sqlQuery = "DELETE FROM carrello_dettaglio cd WHERE cd.id_carrello IN (\r\n"
+				+ "SELECT c.id_carrello\r\n"
+				+ "FROM carrello c\r\n"
+				+ "INNER JOIN utente u\r\n"
+				+ "ON c.id_utente = u.id_utente\r\n"
+				+ "WHERE u.nome_utente = ?)\r\n"
+				+ "AND cd.id_articolo = ?";
+		PreparedStatement statement = connection.prepareStatement(sqlQuery);
+		statement.setString(1, username);
+		statement.setInt(2, id);
+		statement.executeUpdate();
+	}
 }

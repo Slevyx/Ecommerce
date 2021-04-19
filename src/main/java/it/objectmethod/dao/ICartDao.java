@@ -14,4 +14,10 @@ public interface ICartDao {
 	public void updateArticleQuantity(String username, int id, int quantity) throws SQLException;
 
 	public CartArticle addToCart(String username, int id, int quantity) throws SQLException;
+
+	public void buyArticles(String username) throws SQLException;
+
+	public void addRemoveArticle(String username, int id, int quantity) throws SQLException;
+
+	public void removeAllArticles(String username, int id) throws SQLException;
 }

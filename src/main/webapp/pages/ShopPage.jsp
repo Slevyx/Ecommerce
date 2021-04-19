@@ -12,7 +12,8 @@
 <body>
 	<div class="header">
 		<h2>Welcome, ${loggedUser}!</h2>
-		<a href="/Ecommerce/pages/CartPage.jsp"><img src="${pageContext.request.contextPath}/img/cart.png" width="50"></a>
+		<div class="shop-logout"><a href="/Ecommerce/Logout"><button type="button" class="btn btn-warning">LOGOUT</button></a></div>
+		<a href="/Ecommerce/Total"><img src="${pageContext.request.contextPath}/img/cart.png" width="50"></a>
 		<p>${user_articles}</p>
 	</div>
 	<c:choose>
@@ -33,7 +34,7 @@
 						<div class="width-20">${article.code}</div>
 						<div class="width-20">${article.name}</div>
 						<div class="width-20">${article.availability}</div>
-						<div class="width-20">${article.price}</div>
+						<div class="width-20">${article.price}&euro;</div>
 						<div class="width-20">
 							<a href="/Ecommerce/AddToCart?id=${article.id}"><button type="button" class="btn btn-primary">Add To Cart</button></a>
 						</div>

@@ -22,7 +22,7 @@ public class LoginServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
-		String redirect = "pages/LoginPage.jsp";
+		String forwardTo = "pages/LoginPage.jsp";
 		User user = null;
 		HttpSession session = request.getSession();
 		IUsersDao usersDao = new UsersDaoImpl();
@@ -34,7 +34,7 @@ public class LoginServlet extends HttpServlet {
 				user = usersDao.getUser(username, password);
 				if(user != null && user.getUsername().equals(username) && user.getPassword().equals(password)) {
 					session.setAttribute("loggedUser", username);
-					redirect = "Articles";
+					forwardTo = "Articles";
 				}
 				else {
 					request.setAttribute("error", "Wrong Username or Password.");
@@ -43,6 +43,6 @@ public class LoginServlet extends HttpServlet {
 				e.printStackTrace();
 			}
 		}
-		request.getRequestDispatcher(redirect).forward(request, response);
+		request.getRequestDispatcher(forwardTo).forward(request, response);
 	}
 }

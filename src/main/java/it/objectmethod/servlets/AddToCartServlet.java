@@ -37,9 +37,7 @@ public class AddToCartServlet extends HttpServlet {
 				//INSERT INTO
 				try {
 					cartList.add(cartDao.addToCart(username, Integer.parseInt(id), 1));
-					for(CartArticle article : cartList) {
-						System.out.println(article.getId());
-					}
+					cartCounter += 1;
 				} catch (NumberFormatException e) {
 					e.printStackTrace();
 				} catch (SQLException e) {
@@ -48,22 +46,24 @@ public class AddToCartServlet extends HttpServlet {
 			}
 			else {
 				//UPDATE
-				try {
-					for(CartArticle article : cartList) {
-						if(article.getId() == Integer.parseInt(id)) {
-							int newQuantity = filteredCartList.get(0).getQuantity() + 1;
+				for(CartArticle article : cartList) {
+					if(article.getId() == Integer.parseInt(id)) {
+						int newQuantity = filteredCartList.get(0).getQuantity() + 1;
+						try {
 							cartDao.updateArticleQuantity(username, Integer.parseInt(id), newQuantity);
 							article.setQuantity(newQuantity);
+							cartCounter += 1;
+						} catch (NumberFormatException e) {
+							e.printStackTrace();
+						} catch (SQLException e) {
+							e.printStackTrace();
 						}
+						break;
 					}
-				} catch (NumberFormatException e) {
-					e.printStackTrace();
-				} catch (SQLException e) {
-					e.printStackTrace();
 				}
 			}
 		}
-		session.setAttribute("user_articles", cartCounter + 1);
+		session.setAttribute("user_articles", cartCounter);
 		session.setAttribute("cartList", cartList);
 		request.getRequestDispatcher("pages/ShopPage.jsp").forward(request, response);
 	}
