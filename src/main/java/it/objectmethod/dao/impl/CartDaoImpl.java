@@ -129,15 +129,31 @@ public class CartDaoImpl implements ICartDao{
 	public void buyArticles(String username) throws SQLException {
 		Connection connection = ConnectionFactory.getConnection();
 		//UPDATE
-		String sqlQuery = "";
+		String sqlQuery = "UPDATE articolo art\r\n"
+				+ "INNER JOIN carrello_dettaglio cd\r\n"
+				+ "ON art.id_articolo = cd.id_articolo\r\n"
+				+ "INNER JOIN carrello c\r\n"
+				+ "ON c.id_carrello = cd.id_carrello\r\n"
+				+ "INNER JOIN utente u\r\n"
+				+ "ON u.id_utente = c.id_utente\r\n"
+				+ "SET art.disponibilita = (\r\n"
+				+ "SELECT disponibilita - quantita\r\n"
+				+ "WHERE u.nome_utente = ?)\r\n"
+				+ "WHERE art.id_articolo = (\r\n"
+				+ "SELECT art.id_articolo\r\n"
+				+ "WHERE u.nome_utente = ?)";
+		PreparedStatement statement = connection.prepareStatement(sqlQuery);
+		statement.setString(1, username);
+		statement.setString(2, username);
+		statement.executeUpdate();
 		//DELETE
-		sqlQuery = "DELETE FROM carrello_dettaglio cd WHERE cd.id_carrello IN (\r\n"
+		sqlQuery = "DELETE FROM carrello_dettaglio cd WHERE cd.id_carrello = (\r\n"
 				+ "SELECT c.id_carrello\r\n"
 				+ "FROM carrello c\r\n"
 				+ "INNER JOIN utente u\r\n"
 				+ "ON c.id_utente = u.id_utente\r\n"
 				+ "WHERE u.nome_utente = ?)";
-		PreparedStatement statement = connection.prepareStatement(sqlQuery);
+		statement = connection.prepareStatement(sqlQuery);
 		statement.setString(1, username);
 		statement.executeUpdate();
 	}
