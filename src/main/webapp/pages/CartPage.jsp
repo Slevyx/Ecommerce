@@ -63,9 +63,10 @@
 			</div>
 		</c:otherwise>
 	</c:choose>
-	<c:if test="${not empty cartList}">
-		<div class="width-20"><a href="/Ecommerce/Buy"><button type="button" class="btn btn-success">BUY</button></a></div>
+	<c:if test="${not empty cartList && empty articlesAvailabilityMessage}">
+		<div class="width-20"><a href="/Ecommerce/Availability"><button type="button" class="btn btn-success">BUY</button></a></div>
 		<div class="total">Total:${total}&euro;</div>
 	</c:if>
+	<h3>${articlesAvailabilityMessage}</h3>
 </body>
 </html>

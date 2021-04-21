@@ -28,6 +28,7 @@ public class AddRemoveServlet extends HttpServlet {
 		String username = (String) session.getAttribute("loggedUser");
 		List<CartArticle> cartList = (List<CartArticle>) session.getAttribute("cartList");
 		int cartCounter = (int) session.getAttribute("user_articles");
+		double total = (double) session.getAttribute("total");
 		if(action == null || id == null) {
 			request.setAttribute("error", "System has encountered an error while trying to add or remove articles.");
 		}
@@ -39,6 +40,7 @@ public class AddRemoveServlet extends HttpServlet {
 						try {
 							cartDao.addRemoveArticle(username, Integer.parseInt(id), newQuantity);
 							article.setQuantity(newQuantity);
+							total += article.getPrice();
 							cartCounter += 1;
 						} catch (NumberFormatException e) {
 							e.printStackTrace();
@@ -53,6 +55,7 @@ public class AddRemoveServlet extends HttpServlet {
 							try {
 								cartDao.addRemoveArticle(username, Integer.parseInt(id), newQuantity);
 								article.setQuantity(newQuantity);
+								total -= article.getPrice();
 								cartCounter -= 1;
 							} catch (NumberFormatException e) {
 								e.printStackTrace();
@@ -65,6 +68,7 @@ public class AddRemoveServlet extends HttpServlet {
 							try {
 								cartDao.removeAllArticles(username, Integer.parseInt(id));
 								cartList.remove(article);
+								total -= article.getPrice();
 								cartCounter -= 1;
 							} catch (NumberFormatException e) {
 								e.printStackTrace();
@@ -80,6 +84,7 @@ public class AddRemoveServlet extends HttpServlet {
 				}
 			}
 		}
+		session.setAttribute("total", total);
 		session.setAttribute("user_articles", cartCounter);
 		session.setAttribute("cartList", cartList);
 		request.getRequestDispatcher("Total").forward(request, response);

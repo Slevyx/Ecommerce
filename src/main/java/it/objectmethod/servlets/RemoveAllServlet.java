@@ -27,6 +27,7 @@ public class RemoveAllServlet extends HttpServlet {
 		String username = (String) session.getAttribute("loggedUser");
 		List<CartArticle> cartList = (List<CartArticle>) session.getAttribute("cartList");
 		int cartCounter = (int) session.getAttribute("user_articles");
+		double total = (double) session.getAttribute("total");
 		if(id == null) {
 			request.setAttribute("error", "System has encountered an error while trying to remove all articles.");
 		}
@@ -37,6 +38,7 @@ public class RemoveAllServlet extends HttpServlet {
 					try {
 						cartDao.removeAllArticles(username, Integer.parseInt(id));
 						cartList.remove(article);
+						total -= quantityToRemove * article.getPrice();
 						cartCounter -= quantityToRemove;
 					} catch (NumberFormatException e) {
 						e.printStackTrace();
@@ -46,6 +48,7 @@ public class RemoveAllServlet extends HttpServlet {
 					break;
 				}
 			}
+			session.setAttribute("total", total);
 			session.setAttribute("user_articles", cartCounter);
 			session.setAttribute("cartList", cartList);
 			request.getRequestDispatcher("Total").forward(request, response);

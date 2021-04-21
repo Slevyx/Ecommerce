@@ -34,5 +34,4 @@ public class ArticlesDaoImpl implements IArticlesDao{
 		connection.close();
 		return articlesList;
 	}
-
 }
