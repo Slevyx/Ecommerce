@@ -1,23 +1,26 @@
 package it.objectmethod.dao;
 
-import java.sql.SQLException;
 import java.util.List;
 
 import it.objectmethod.models.CartArticle;
 
 public interface ICartDao {
 
-	public int getUserArticlesNumber(String username) throws SQLException;
+	public int getUserArticlesNumber(String username);
 
-	public List<CartArticle> getUserCartList(String username) throws SQLException;
+	public List<CartArticle> getUserCartList(String username);
 
-	public void updateArticleQuantity(String username, int id, int quantity) throws SQLException;
+	public void updateArticleQuantity(String username, int id, int quantity);
 
-	public CartArticle addToCart(String username, int id, int quantity) throws SQLException;
+	public void addToCart(String username, int id, int quantity);
+	
+	public CartArticle pickNewArticle(int id, int quantity);
+	
+	public void updateArticlesAvailability(String username);
+	
+	public void buyArticles(String username);
 
-	public void buyArticles(String username) throws SQLException;
+	public void addRemoveArticle(String username, int id, int quantity);
 
-	public void addRemoveArticle(String username, int id, int quantity) throws SQLException;
-
-	public void removeAllArticles(String username, int id) throws SQLException;
+	public void removeAllArticles(String username, int id);
 }

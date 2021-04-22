@@ -1,7 +1,6 @@
 package it.objectmethod.servlets;
 
 import java.io.IOException;
-import java.sql.SQLException;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -30,17 +29,13 @@ public class LoginServlet extends HttpServlet {
 			request.setAttribute("error", "Username and Password cannot be empty.");
 		}
 		else{
-			try {
-				user = usersDao.getUser(username, password);
-				if(user != null && user.getUsername().equals(username) && user.getPassword().equals(password)) {
-					session.setAttribute("loggedUser", username);
-					forwardTo = "Articles";
-				}
-				else {
-					request.setAttribute("error", "Wrong Username or Password.");
-				}
-			} catch (SQLException e) {
-				e.printStackTrace();
+			user = usersDao.getUser(username, password);
+			if(user != null && user.getUsername().equals(username) && user.getPassword().equals(password)) {
+				session.setAttribute("loggedUser", username);
+				forwardTo = "Articles";
+			}
+			else {
+				request.setAttribute("error", "Wrong Username or Password.");
 			}
 		}
 		request.getRequestDispatcher(forwardTo).forward(request, response);

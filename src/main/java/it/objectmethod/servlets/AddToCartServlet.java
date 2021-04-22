@@ -1,7 +1,6 @@
 package it.objectmethod.servlets;
 
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -35,29 +34,18 @@ public class AddToCartServlet extends HttpServlet {
 			List<CartArticle> filteredCartList = cartList.stream().filter(article -> article.getId() == Integer.parseInt(id)).collect(Collectors.toList());
 			if(filteredCartList.isEmpty()) {
 				//INSERT INTO
-				try {
-					cartList.add(cartDao.addToCart(username, Integer.parseInt(id), 1));
-					cartCounter += 1;
-				} catch (NumberFormatException e) {
-					e.printStackTrace();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
+				cartDao.addToCart(username, Integer.parseInt(id), 1);
+				cartList.add(cartDao.pickNewArticle(Integer.parseInt(id), 1));
+				cartCounter += 1;
 			}
 			else {
 				//UPDATE
 				for(CartArticle article : cartList) {
 					if(article.getId() == Integer.parseInt(id)) {
 						int newQuantity = filteredCartList.get(0).getQuantity() + 1;
-						try {
-							cartDao.updateArticleQuantity(username, Integer.parseInt(id), newQuantity);
-							article.setQuantity(newQuantity);
-							cartCounter += 1;
-						} catch (NumberFormatException e) {
-							e.printStackTrace();
-						} catch (SQLException e) {
-							e.printStackTrace();
-						}
+						cartDao.updateArticleQuantity(username, Integer.parseInt(id), newQuantity);
+						article.setQuantity(newQuantity);
+						cartCounter += 1;
 						break;
 					}
 				}

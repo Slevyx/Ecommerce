@@ -1,7 +1,6 @@
 package it.objectmethod.servlets;
 
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,11 +24,7 @@ public class UserCartListServlet extends HttpServlet {
 		ICartDao cartDao = new CartDaoImpl();
 		HttpSession session = request.getSession();
 		String username = (String) session.getAttribute("loggedUser");
-		try {
-			cartList = cartDao.getUserCartList(username);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+		cartList = cartDao.getUserCartList(username);
 		session.setAttribute("cartList", cartList);
 		request.getRequestDispatcher("pages/ShopPage.jsp").forward(request, response);
 	}

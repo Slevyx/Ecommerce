@@ -1,7 +1,6 @@
 package it.objectmethod.servlets;
 
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -25,14 +24,11 @@ public class BuyServlet extends HttpServlet {
 		HttpSession session = request.getSession();
 		String username = (String) session.getAttribute("loggedUser");
 		List<CartArticle> cartList = (List<CartArticle>) session.getAttribute("cartList");
-		try {
-			cartDao.buyArticles(username);
-			cartList.clear();
-			session.setAttribute("user_articles", 0);
-			request.setAttribute("purchaseMessage", "Your products have been purchased successfully!");
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+		cartDao.updateArticlesAvailability(username);
+		cartDao.buyArticles(username);
+		cartList.clear();
+		session.setAttribute("user_articles", 0);
+		request.setAttribute("purchaseMessage", "Your products have been purchased successfully!");
 		session.setAttribute("cartList", cartList);
 		request.getRequestDispatcher("pages/CartPage.jsp").forward(request, response);
 	}

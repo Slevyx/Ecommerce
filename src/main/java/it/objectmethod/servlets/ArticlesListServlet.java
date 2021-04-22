@@ -1,7 +1,6 @@
 package it.objectmethod.servlets;
 
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,11 +24,7 @@ public class ArticlesListServlet extends HttpServlet {
 		List<Article> articlesList = new ArrayList<>();
 		IArticlesDao articlesDao = new ArticlesDaoImpl();
 		HttpSession session = request.getSession();
-		try {
-			articlesList = articlesDao.getArticles();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+		articlesList = articlesDao.getArticles();
 		session.setAttribute("articlesList", articlesList);
 		request.getRequestDispatcher("ArticlesToBeBought").forward(request, response);
 	}

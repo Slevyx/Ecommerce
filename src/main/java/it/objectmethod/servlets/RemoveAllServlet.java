@@ -1,7 +1,6 @@
 package it.objectmethod.servlets;
 
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -35,16 +34,10 @@ public class RemoveAllServlet extends HttpServlet {
 			for(CartArticle article : cartList) {
 				if(article.getId() == Integer.parseInt(id)) {
 					int quantityToRemove = article.getQuantity();
-					try {
-						cartDao.removeAllArticles(username, Integer.parseInt(id));
-						cartList.remove(article);
-						total -= quantityToRemove * article.getPrice();
-						cartCounter -= quantityToRemove;
-					} catch (NumberFormatException e) {
-						e.printStackTrace();
-					} catch (SQLException e) {
-						e.printStackTrace();
-					}
+					cartDao.removeAllArticles(username, Integer.parseInt(id));
+					cartList.remove(article);
+					total -= quantityToRemove * article.getPrice();
+					cartCounter -= quantityToRemove;
 					break;
 				}
 			}

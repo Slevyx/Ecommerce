@@ -1,7 +1,6 @@
 package it.objectmethod.servlets;
 
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -37,44 +36,26 @@ public class AddRemoveServlet extends HttpServlet {
 				if(article.getId() == Integer.parseInt(id)) {
 					if(action.equalsIgnoreCase("add")) {
 						int newQuantity = article.getQuantity() + 1;
-						try {
-							cartDao.addRemoveArticle(username, Integer.parseInt(id), newQuantity);
-							article.setQuantity(newQuantity);
-							total += article.getPrice();
-							cartCounter += 1;
-						} catch (NumberFormatException e) {
-							e.printStackTrace();
-						} catch (SQLException e) {
-							e.printStackTrace();
-						}
+						cartDao.addRemoveArticle(username, Integer.parseInt(id), newQuantity);
+						article.setQuantity(newQuantity);
+						total += article.getPrice();
+						cartCounter += 1;
 						break;
 					}
 					else if(action.equalsIgnoreCase("remove")){
 						int newQuantity = article.getQuantity() - 1;
 						if(newQuantity > 0) {
-							try {
-								cartDao.addRemoveArticle(username, Integer.parseInt(id), newQuantity);
-								article.setQuantity(newQuantity);
-								total -= article.getPrice();
-								cartCounter -= 1;
-							} catch (NumberFormatException e) {
-								e.printStackTrace();
-							} catch (SQLException e) {
-								e.printStackTrace();
-							}
+							cartDao.addRemoveArticle(username, Integer.parseInt(id), newQuantity);
+							article.setQuantity(newQuantity);
+							total -= article.getPrice();
+							cartCounter -= 1;
 							break;
 						}
 						else {
-							try {
-								cartDao.removeAllArticles(username, Integer.parseInt(id));
-								cartList.remove(article);
-								total -= article.getPrice();
-								cartCounter -= 1;
-							} catch (NumberFormatException e) {
-								e.printStackTrace();
-							} catch (SQLException e) {
-								e.printStackTrace();
-							}
+							cartDao.removeAllArticles(username, Integer.parseInt(id));
+							cartList.remove(article);
+							total -= article.getPrice();
+							cartCounter -= 1;
 							break;
 						}
 					}

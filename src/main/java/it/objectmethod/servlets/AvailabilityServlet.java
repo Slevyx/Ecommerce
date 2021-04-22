@@ -1,8 +1,6 @@
 package it.objectmethod.servlets;
 
 import java.io.IOException;
-import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -28,17 +26,13 @@ public class AvailabilityServlet extends HttpServlet {
 		HttpSession session = request.getSession();
 		String username = (String) session.getAttribute("loggedUser");
 		List<CartArticle> cartList = (List<CartArticle>) session.getAttribute("cartList");
-		try {
-			cartList = cartDao.getUserCartList(username);
-			List<CartArticle> filteredCartList = cartList.stream().filter(article -> article.getQuantity() > article.getAvailability()).collect(Collectors.toList());
-			if(filteredCartList.isEmpty()) {
-				forwardTo = "Buy";
-			}
-			else {
-				request.setAttribute("articlesAvailabilityMessage", "One or more selected articles are not available. Please remove unavailable products to complete the purchase.");
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
+		cartList = cartDao.getUserCartList(username);
+		List<CartArticle> filteredCartList = cartList.stream().filter(article -> article.getQuantity() > article.getAvailability()).collect(Collectors.toList());
+		if(filteredCartList.isEmpty()) {
+			forwardTo = "Buy";
+		}
+		else {
+			request.setAttribute("articlesAvailabilityMessage", "One or more selected articles are not available. Please remove unavailable products to complete the purchase.");
 		}
 		session.setAttribute("cartList", cartList);
 		request.getRequestDispatcher(forwardTo).forward(request, response);
