@@ -1,6 +1,7 @@
 package it.objectmethod.servlets;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -19,13 +20,12 @@ import it.objectmethod.models.CartArticle;
 public class AvailabilityServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
-	@SuppressWarnings("unchecked")
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String forwardTo = "pages/CartPage.jsp";
 		ICartDao cartDao = new CartDaoImpl();
 		HttpSession session = request.getSession();
 		String username = (String) session.getAttribute("loggedUser");
-		List<CartArticle> cartList = (List<CartArticle>) session.getAttribute("cartList");
+		List<CartArticle> cartList = new ArrayList<>();
 		cartList = cartDao.getUserCartList(username);
 		List<CartArticle> filteredCartList = cartList.stream().filter(article -> article.getQuantity() > article.getAvailability()).collect(Collectors.toList());
 		if(filteredCartList.isEmpty()) {

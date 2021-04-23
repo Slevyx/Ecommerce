@@ -36,7 +36,7 @@ public class AddRemoveServlet extends HttpServlet {
 				if(article.getId() == Integer.parseInt(id)) {
 					if(action.equalsIgnoreCase("add")) {
 						int newQuantity = article.getQuantity() + 1;
-						cartDao.addRemoveArticle(username, Integer.parseInt(id), newQuantity);
+						cartDao.updateArticleQuantity(username, Integer.parseInt(id), newQuantity);
 						article.setQuantity(newQuantity);
 						total += article.getPrice();
 						cartCounter += 1;
@@ -45,7 +45,7 @@ public class AddRemoveServlet extends HttpServlet {
 					else if(action.equalsIgnoreCase("remove")){
 						int newQuantity = article.getQuantity() - 1;
 						if(newQuantity > 0) {
-							cartDao.addRemoveArticle(username, Integer.parseInt(id), newQuantity);
+							cartDao.updateArticleQuantity(username, Integer.parseInt(id), newQuantity);
 							article.setQuantity(newQuantity);
 							total -= article.getPrice();
 							cartCounter -= 1;

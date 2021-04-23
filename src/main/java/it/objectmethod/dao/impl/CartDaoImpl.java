@@ -200,31 +200,6 @@ public class CartDaoImpl implements ICartDao{
 	}
 
 	@Override
-	public void addRemoveArticle(String username, int id, int quantity) {
-		String sqlQuery = "UPDATE carrello_dettaglio cd\n"
-				+ "INNER JOIN carrello c\n"
-				+ "ON c.id_carrello = cd.id_carrello \n"
-				+ "INNER JOIN utente u\n"
-				+ "ON u.id_utente = c.id_utente \n"
-				+ "INNER JOIN articolo art\n"
-				+ "ON art.id_articolo = cd.id_articolo\n"
-				+ "SET quantita = ?\n"
-				+ "WHERE cd.id_articolo = ? AND u.nome_utente = ?";
-		try {
-			Connection connection = ConnectionFactory.getConnection();
-			PreparedStatement statement = connection.prepareStatement(sqlQuery);
-			statement.setInt(1, quantity);
-			statement.setInt(2, id);
-			statement.setString(3, username);
-			statement.executeUpdate();
-			statement.close();
-			connection.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}
-
-	@Override
 	public void removeAllArticles(String username, int id) {
 		String sqlQuery = "DELETE FROM carrello_dettaglio cd WHERE cd.id_carrello IN (\r\n"
 				+ "SELECT c.id_carrello\r\n"

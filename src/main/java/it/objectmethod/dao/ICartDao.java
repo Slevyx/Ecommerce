@@ -20,7 +20,5 @@ public interface ICartDao {
 	
 	public void buyArticles(String username);
 
-	public void addRemoveArticle(String username, int id, int quantity);
-
 	public void removeAllArticles(String username, int id);
 }
